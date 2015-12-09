@@ -1,0 +1,3 @@
+title=Wisdoms
+author=Tibor
+orientation=portrait
