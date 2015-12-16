@@ -98,8 +98,14 @@ class Will_tryScreen(Screen):
 
 
 class AddWisdomScreen(Screen):
+
+
     def callback_add_wisdom(self):
 	print 'tlacidlo bavi'
+
+	# use text from kv file based on id from kv file
+        print self.ids.new_wisdom.text
+
         data_dir = App().user_data_dir
         store = JsonStore(join(data_dir, 'wisdoms.json'))
         #store = JsonStore('wisdoms.json')
