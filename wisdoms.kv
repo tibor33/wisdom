@@ -45,7 +45,8 @@
         Button:
             text: 'Add wisdom'
             size_hint: (1, 0.2)
-            on_press: root.callback_add_wisdom()
+            #on_press: root.callback_add_wisdom()
+            on_press: root.manager.current = 'add_wisdom'
 
 
 
@@ -104,4 +105,27 @@
             on_press: root.manager.current = 'main'
             size_hint: (1, 0.2)
 
+
+<AddWisdomScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        ScrollView
+            TextInput:
+                id: new_wisdom 
+                #text: root.username
+                text: 'add here'
+                #on_enter_key: root.callback_add_wisdom()      
+                #on_press: root.callback_add_wisdom()      
+
+
+        Button:
+            text: 'Save'
+            on_press: root.callback_add_wisdom()
+            size_hint: (1, 0.2)       
+
+        Button:
+            text: 'Cancel'
+            on_press: root.manager.current = 'main'
+            size_hint: (1, 0.2)
 

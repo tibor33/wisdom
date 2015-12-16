@@ -32,7 +32,7 @@ class MainScreen(Screen):
     def callback_get_wisdom(self):
         good_text_id = StringProperty()
         good_text_id = 'List of most implemented wisdoms:' + '\n'
-        wisdoms_list = open('wisdoms.txt','r')
+#        wisdoms_list = open('wisdoms.txt','r')
 #        wisdoms_list = list(csv.reader(wisdoms_list,delimiter='|'))
 #        wisdom_number = randint(0,len(wisdoms_list)-1)
 #        global wisdom_number
@@ -40,7 +40,8 @@ class MainScreen(Screen):
 #	self.wisdom_text_id = wisdom_cell	
 
     def callback_update_GOOD(self):
-	wisdoms_list = open('wisdoms.txt','r')
+	pass
+#	wisdoms_list = open('wisdoms.txt','r')
 #        wisdoms_list = list(csv.reader(wisdoms_list,delimiter='|'))
 #	wisdoms_list[wisdom_number][1] = int(wisdoms_list[wisdom_number][1]) + 1
 #        writer = csv.writer(open('wisdoms.txt','w'),delimiter ='|')
@@ -48,22 +49,23 @@ class MainScreen(Screen):
 
 	
     def callback_update_BAD(self):
-        wisdoms_list = open('wisdoms.txt','r')
+	pass
+#        wisdoms_list = open('wisdoms.txt','r')
  #       wisdoms_list = list(csv.reader(wisdoms_list,delimiter='|'))
  #       wisdoms_list[wisdom_number][2] = int(wisdoms_list[wisdom_number][2]) + 1
  #       writer = csv.writer(open('wisdoms.txt','w'),delimiter ='|')
  #       writer.writerows(wisdoms_list)
 
-    def callback_add_wisdom(self):
-        data_dir = App().user_data_dir
-        store = JsonStore(join(data_dir, 'wisdoms.json'))
-        #store = JsonStore('wisdoms.json')
-	# generate unique random number
-        import uuid
-        new_uuid = uuid.uuid4().hex
-        # read new wisdom        
-        new_wisdom = 'nieco ine'
-        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
+#    def callback_add_wisdom(self):
+#        data_dir = App().user_data_dir
+#        store = JsonStore(join(data_dir, 'wisdoms.json'))
+#        #store = JsonStore('wisdoms.json')
+#	# generate unique random number
+#        import uuid
+#        new_uuid = uuid.uuid4().hex
+#        # read new wisdom        
+#        new_wisdom = 'nieco ine'
+#        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
 
 
 
@@ -76,7 +78,7 @@ class ImplementedScreen(Screen):
 #    print 'prve nbavi'
     good_text_id = StringProperty()
     good_text_id = 'List of most implemented wisdoms:' + '\n'
-    implemented_list = open('wisdoms.txt','r')
+#    implemented_list = open('wisdoms.txt','r')
 #    implemented_list = list(csv.reader(implemented_list,delimiter='|'))
 #    sort = sorted(implemented_list,key=operator.itemgetter(1),reverse=True)
 #    for eachline in sort:
@@ -87,12 +89,27 @@ class Will_tryScreen(Screen):
 #    print 'bavi to'
     bad_text_id = StringProperty()
     bad_text_id = 'List of least implemented wisdoms:' + '\n'
-    will_try_list = open('wisdoms.txt','r')
+#    will_try_list = open('wisdoms.txt','r')
  #   will_try_list = list(csv.reader(will_try_list,delimiter='|'))
  #   sort = sorted(will_try_list,key=operator.itemgetter(2),reverse=True)
  #   for eachline in sort:
  #       bad_text_line = eachline[:][0]
  #       bad_text_id = bad_text_id +'\n' + ' '  + bad_text_line + '\n'
+
+
+class AddWisdomScreen(Screen):
+    def callback_add_wisdom(self):
+	print 'tlacidlo bavi'
+        data_dir = App().user_data_dir
+        store = JsonStore(join(data_dir, 'wisdoms.json'))
+        #store = JsonStore('wisdoms.json')
+        # generate unique random number
+        import uuid
+        new_uuid = uuid.uuid4().hex
+        # read new wisdom        
+        #new_wisdom = 'nieco ine'
+        new_wisdom = 'nieco ine'
+        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
 
 
 # Create the screen manager
@@ -101,6 +118,7 @@ sm.add_widget(MainScreen(name='main'))
 sm.add_widget(MenuScreen(name='menu'))
 sm.add_widget(ImplementedScreen(name='implemented'))
 sm.add_widget(Will_tryScreen(name='will_try'))
+sm.add_widget(AddWisdomScreen(name='add_wisdom'))
 
 class Wisdoms(App):
     def build(self):
