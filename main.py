@@ -17,6 +17,8 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.storage.jsonstore import JsonStore
 from os.path import join
 
+# to generate uuid for new wisdom
+import uuid
 
 Builder.load_file('wisdoms.kv')
 
@@ -30,6 +32,11 @@ class MainScreen(Screen):
     # initialize handle/text of label
     wisdom_text_id = StringProperty()
     def callback_get_wisdom(self):
+
+	
+
+#	self.wisdom_text_id = 
+
         good_text_id = StringProperty()
         good_text_id = 'List of most implemented wisdoms:' + '\n'
 #        wisdoms_list = open('wisdoms.txt','r')
@@ -56,21 +63,6 @@ class MainScreen(Screen):
  #       writer = csv.writer(open('wisdoms.txt','w'),delimiter ='|')
  #       writer.writerows(wisdoms_list)
 
-#    def callback_add_wisdom(self):
-#        data_dir = App().user_data_dir
-#        store = JsonStore(join(data_dir, 'wisdoms.json'))
-#        #store = JsonStore('wisdoms.json')
-#	# generate unique random number
-#        import uuid
-#        new_uuid = uuid.uuid4().hex
-#        # read new wisdom        
-#        new_wisdom = 'nieco ine'
-#        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
-
-
-
-
-	
 
 class MenuScreen(Screen):
     pass
@@ -98,23 +90,15 @@ class Will_tryScreen(Screen):
 
 
 class AddWisdomScreen(Screen):
-
-
     def callback_add_wisdom(self):
-	print 'tlacidlo bavi'
-
-	# use text from kv file based on id from kv file
-        print self.ids.new_wisdom.text
-
-        data_dir = App().user_data_dir
-        store = JsonStore(join(data_dir, 'wisdoms.json'))
+#       data_dir = App().user_data_dir
+#       store = JsonStore(join(data_dir, 'wisdoms.json'))
         #store = JsonStore('wisdoms.json')
         # generate unique random number
-        import uuid
+#       import uuid
         new_uuid = uuid.uuid4().hex
-        # read new wisdom        
-        #new_wisdom = 'nieco ine'
-        new_wisdom = 'nieco ine'
+	# use text from kv file based on id from kv file
+        new_wisdom = self.ids.new_wisdom.text
         store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
 
 
@@ -128,6 +112,11 @@ sm.add_widget(AddWisdomScreen(name='add_wisdom'))
 
 class Wisdoms(App):
     def build(self):
+        data_dir = App().user_data_dir
+        store = JsonStore(join(data_dir, 'wisdoms.json'))
+
+	#global data_dir
+	global store
         return sm
 
 if __name__ == '__main__':
