@@ -9,7 +9,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 
-from random import randint
+#from random import randint
 import random
 
 # need for using handles to labels
@@ -33,46 +33,36 @@ Builder.load_file('wisdoms.kv')
 class MainScreen(Screen):
     # initialize handle/text of label
     wisdom_text_id = StringProperty()
+
     def callback_get_wisdom(self):
 	# get wisdom ids from json store
 	wisdom_uuids = list(store)
 	# get random uuid of wisdom
 	wisdom_index =  random.choice(wisdom_uuids)
-
+	# update handle of label with text of wisdom
 	self.wisdom_text_id = store.get(wisdom_index)['wisdom']
 	
+	# to use uuid in Good and Bad update
+	global wisdom_index	
+#        good_text_id = StringProperty()
+#        good_text_id = 'List of most implemented wisdoms:' + '\n'
 
-
-#	keys = entries[:][0]
-#	wisdom_index =  random.choice(keys)	
-#	print wisdom_index
-#	self.wisdom_text_id = 
-
-        good_text_id = StringProperty()
-        good_text_id = 'List of most implemented wisdoms:' + '\n'
-#        wisdoms_list = open('wisdoms.txt','r')
-#        wisdoms_list = list(csv.reader(wisdoms_list,delimiter='|'))
-#        wisdom_number = randint(0,len(wisdoms_list)-1)
-#        global wisdom_number
-#        wisdom_cell = wisdoms_list[wisdom_number][0]
-#	self.wisdom_text_id = wisdom_cell	
 
     def callback_update_GOOD(self):
-	pass
-#	wisdoms_list = open('wisdoms.txt','r')
-#        wisdoms_list = list(csv.reader(wisdoms_list,delimiter='|'))
-#	wisdoms_list[wisdom_number][1] = int(wisdoms_list[wisdom_number][1]) + 1
-#        writer = csv.writer(open('wisdoms.txt','w'),delimiter ='|')
-#	writer.writerows(wisdoms_list)
-
+	current_GOOD = int(store.get(wisdom_index)['implemented'] )
+	current_GOOD += 1
+	temp_wisdom_text = store.get(wisdom_index)['wisdom']
+	temp_will_try = store.get(wisdom_index)['will_try']
+	# whole entry needs to be reentered to update one field
+        store.put(wisdom_index, implemented=current_GOOD, wisdom=temp_wisdom_text, will_try=temp_will_try )
 	
     def callback_update_BAD(self):
-	pass
-#        wisdoms_list = open('wisdoms.txt','r')
- #       wisdoms_list = list(csv.reader(wisdoms_list,delimiter='|'))
- #       wisdoms_list[wisdom_number][2] = int(wisdoms_list[wisdom_number][2]) + 1
- #       writer = csv.writer(open('wisdoms.txt','w'),delimiter ='|')
- #       writer.writerows(wisdoms_list)
+        current_BAD = int(store.get(wisdom_index)['will_try'] )
+        current_BAD += 1
+        temp_wisdom_text = store.get(wisdom_index)['wisdom']
+        temp_implemented = store.get(wisdom_index)['implemented']
+        # whole entry needs to be reentered to update one field
+        store.put(wisdom_index, implemented=temp_implemented, wisdom=temp_wisdom_text, will_try=current_BAD )
 
 
 class MenuScreen(Screen):
