@@ -10,6 +10,8 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from random import randint
+import random
+
 # need for using handles to labels
 from kivy.properties import ObjectProperty, StringProperty
 
@@ -32,9 +34,18 @@ class MainScreen(Screen):
     # initialize handle/text of label
     wisdom_text_id = StringProperty()
     def callback_get_wisdom(self):
+	# get wisdom ids from json store
+	wisdom_uuids = list(store)
+	# get random uuid of wisdom
+	wisdom_index =  random.choice(wisdom_uuids)
 
+	self.wisdom_text_id = store.get(wisdom_index)['wisdom']
 	
 
+
+#	keys = entries[:][0]
+#	wisdom_index =  random.choice(keys)	
+#	print wisdom_index
 #	self.wisdom_text_id = 
 
         good_text_id = StringProperty()
