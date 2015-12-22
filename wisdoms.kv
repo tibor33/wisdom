@@ -56,6 +56,8 @@
         spacing: 5 
         Button:
             text: 'Show implemented'
+            #on_press: root.manager.current = 'implemented'
+            #on_press: root.callback_update_TEST()
             on_press: root.manager.current = 'implemented'
 
         Button:
@@ -79,7 +81,8 @@
                 text_size: self.width, None
                 height: self.texture_size[1]
 #                text: 'yay moo cow foo bar moo baa ' * 100
-                text: root.good_text_id
+                #text: root.good_text_id
+                text: root.entries
 
         Button:
             text: 'Back to Main'
@@ -114,7 +117,8 @@
             TextInput:
                 id: new_wisdom 
                 #text: root.username
-                text: 'add here'
+               # text: 'add here'
+		#self.select_all()
 		#root.new_wisdom = TextInput.text 
                 #on_enter_key: root.callback_add_wisdom()      
                 #on_press: root.callback_add_wisdom()      

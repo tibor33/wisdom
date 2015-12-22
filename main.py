@@ -22,6 +22,8 @@ from os.path import join
 # to generate uuid for new wisdom
 import uuid
 
+
+
 Builder.load_file('wisdoms.kv')
 
 # Create both screens. Please note the root.manager.current: this is how
@@ -77,6 +79,33 @@ class ImplementedScreen(Screen):
 #    for eachline in sort:
 #	good_text_line = eachline[:][0]
 #        good_text_id = good_text_id +'\n' + ' '  + good_text_line + '\n'
+    entries = StringProperty()
+
+    data_dir = App().user_data_dir
+    store = JsonStore(join(data_dir, 'wisdoms.json'))
+    entries = str(list(store))
+    #ntries = list(store)
+    #rint entries
+    #rint "whaaaaat"
+
+    # get all the (key, entry) availables
+#    entries = list(store.find(name='Mathieu'))
+
+
+
+#    def callback_update_TEST():
+##	entries = StringProperty()	
+#        # define Json store for future work
+#        data_dir = App().user_data_dir
+#        store = JsonStore(join(data_dir, 'wisdoms.json'))
+#	entries = list(store)
+#        print entries
+#	print "something"
+#
+#
+#
+#    callback_update_TEST()
+
 
 class Will_tryScreen(Screen):
 #    print 'bavi to'
@@ -91,17 +120,14 @@ class Will_tryScreen(Screen):
 
 
 class AddWisdomScreen(Screen):
+
     def callback_add_wisdom(self):
-#       data_dir = App().user_data_dir
-#       store = JsonStore(join(data_dir, 'wisdoms.json'))
-        #store = JsonStore('wisdoms.json')
         # generate unique random number
-#       import uuid
         new_uuid = uuid.uuid4().hex
 	# use text from kv file based on id from kv file
         new_wisdom = self.ids.new_wisdom.text
         store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
-
+	sm.current = 'main'
 
 # Create the screen manager
 sm = ScreenManager()
@@ -113,6 +139,7 @@ sm.add_widget(AddWisdomScreen(name='add_wisdom'))
 
 class Wisdoms(App):
     def build(self):
+	# define Json store for future work
         data_dir = App().user_data_dir
         store = JsonStore(join(data_dir, 'wisdoms.json'))
 
