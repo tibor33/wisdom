@@ -1,10 +1,6 @@
 import kivy
 kivy.require('1.0.6')
 
-# for user home
-#import kivy.app
-#import shutil
-
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -25,13 +21,11 @@ import uuid
 # for dict sorting
 from collections import OrderedDict
 
-
 Builder.load_file('wisdoms.kv')
 
 # Create both screens. Please note the root.manager.current: this is how
 # you can control the ScreenManager from kv. Each screen has by default a
 # property manager that gives you the instance of the ScreenManager used.
-
 
 ### Functions definition
 
@@ -43,25 +37,24 @@ def readExistingDictStore():
 
 ########################
 
-
-
 # Declare all screens
 class MainScreen(Screen):
     # initialize handle/text of label
     wisdom_text_id = StringProperty()
 
     def callback_get_wisdom(self):
-	# get wisdom ids from json store
-	wisdom_uuids = list(store)
-	# get random uuid of wisdom
-	wisdom_index =  random.choice(wisdom_uuids)
-	# update handle of label with text of wisdom
-	self.wisdom_text_id = store.get(wisdom_index)['wisdom']
-	
-	# to use uuid in Good and Bad update
-	global wisdom_index	
-#        good_text_id = StringProperty()
-#        good_text_id = 'List of most implemented wisdoms:' + '\n'
+	# load json dict
+        tempDict = readExistingDictStore()
+	# randomly choose one hashkey
+	wisdom_index = random.choice([i for i,j in tempDict.items()])
+	# get only one random wisdom
+	for i,j in tempDict.items():
+	    if i == wisdom_index:
+		# update handle of label with actual text of wisdom
+        	self.wisdom_text_id = j['wisdom']
+
+        # set global to use uuid in Good and Bad update
+        global wisdom_index
 
 
     def callback_update_GOOD(self):
