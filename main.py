@@ -33,6 +33,18 @@ Builder.load_file('wisdoms.kv')
 # property manager that gives you the instance of the ScreenManager used.
 
 
+### Functions definition
+
+def readExistingDictStore():
+    data_dir = App().user_data_dir
+    with open(join(data_dir, 'wisdoms.json')) as f:
+        return json.load(f)
+    f.close()
+
+########################
+
+
+
 # Declare all screens
 class MainScreen(Screen):
     # initialize handle/text of label
@@ -72,40 +84,32 @@ class MainScreen(Screen):
 class MenuScreen(Screen):
     pass
 class ImplementedScreen(Screen):
-#    print 'prve nbavi'
     good_text_id = StringProperty()
     good_text_id = 'List of most implemented wisdoms:' + '\n'
-#    implemented_list = open('wisdoms.txt','r')
-#    implemented_list = list(csv.reader(implemented_list,delimiter='|'))
-#    sort = sorted(implemented_list,key=operator.itemgetter(1),reverse=True)
-#    for eachline in sort:
-#	good_text_line = eachline[:][0]
-#        good_text_id = good_text_id +'\n' + ' '  + good_text_line + '\n'
-    entries = StringProperty()
 
-    data_dir = App().user_data_dir
-#    store = JsonStore(join(data_dir, 'wisdoms.json'))
-#    entries = str(list(store))
+    # load json dict
+    dictName = readExistingDictStore()
+    # sort dict based on least implemented wisdoms
+    tempSortedDict = OrderedDict(sorted(dictName.items(), reverse=True ,key=lambda (x,y): int(y['implemented']))    )
 
+    OrderNum = 1 # number of wisdom in display
+    # iterate through ordered dict and print only wisdoms
+    for i,j in tempSortedDict.items():
+        good_text_id = good_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['implemented'])  + '\n'
+        OrderNum +=1
 
-def readExistingDictStore():
-    data_dir = App().user_data_dir
-    with open(join(data_dir, 'wisdoms.json')) as f:
-        return json.load(f)
-    f.close()
 
 class Will_tryScreen(Screen):
     bad_text_id = StringProperty()
     bad_text_id = 'List of least implemented wisdoms:' + '\n'
-
+    # load json dict
     dictName = readExistingDictStore()
+    # sort dict based on least implemented wisdoms
+    tempSortedDict = OrderedDict(sorted(dictName.items(), reverse=True ,key=lambda (x,y): int(y['will_try']))    )
 
-    tempSortedDict = OrderedDict(sorted(dictName.items(), reverse=True ,key=lambda (x,y): y['will_try'])    )
-
-    #wip = dictName
-    wip = tempSortedDict
-    OrderNum = 1 
-    for i,j in wip.items():
+    OrderNum = 1 # number of wisdom in display
+    # iterate through ordered dict and print only wisdoms
+    for i,j in tempSortedDict.items():
 	bad_text_id = bad_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
 	OrderNum +=1
 
