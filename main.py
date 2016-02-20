@@ -16,13 +16,15 @@ import random
 from kivy.properties import ObjectProperty, StringProperty
 
 # to work with Json
-from kivy.storage.jsonstore import JsonStore
 from os.path import join
+import json
 
 # to generate uuid for new wisdom
 import uuid
 
-import json
+# for dict sorting
+from collections import OrderedDict
+
 
 Builder.load_file('wisdoms.kv')
 
@@ -82,45 +84,33 @@ class ImplementedScreen(Screen):
     entries = StringProperty()
 
     data_dir = App().user_data_dir
-    store = JsonStore(join(data_dir, 'wisdoms.json'))
-    entries = str(list(store))
-    #ntries = list(store)
-    #rint entries
-    #rint "whaaaaat"
-
-    # get all the (key, entry) availables
-#    entries = list(store.find(name='Mathieu'))
+#    store = JsonStore(join(data_dir, 'wisdoms.json'))
+#    entries = str(list(store))
 
 
-
-#    def callback_update_TEST():
-##	entries = StringProperty()	
-#        # define Json store for future work
-#        data_dir = App().user_data_dir
-#        store = JsonStore(join(data_dir, 'wisdoms.json'))
-#	entries = list(store)
-#        print entries
-#	print "something"
-#
-#
-#
-#    callback_update_TEST()
-
+def readExistingDictStore():
+    data_dir = App().user_data_dir
+    with open(join(data_dir, 'wisdoms.json')) as f:
+        return json.load(f)
+    f.close()
 
 class Will_tryScreen(Screen):
-#    print 'bavi to'
     bad_text_id = StringProperty()
     bad_text_id = 'List of least implemented wisdoms:' + '\n'
-#    will_try_list = open('wisdoms.txt','r')
- #   will_try_list = list(csv.reader(will_try_list,delimiter='|'))
- #   sort = sorted(will_try_list,key=operator.itemgetter(2),reverse=True)
- #   for eachline in sort:
- #       bad_text_line = eachline[:][0]
- #       bad_text_id = bad_text_id +'\n' + ' '  + bad_text_line + '\n'
 
+    dictName = readExistingDictStore()
+
+    tempSortedDict = OrderedDict(sorted(dictName.items(), reverse=True ,key=lambda (x,y): y['will_try'])    )
+
+    #wip = dictName
+    wip = tempSortedDict
+    OrderNum = 1 
+    for i,j in wip.items():
+	bad_text_id = bad_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
+	OrderNum +=1
 
 class AddWisdomScreen(Screen):
-
+    
     def callback_add_wisdom(self):
         # generate unique random number
         new_uuid = uuid.uuid4().hex
@@ -128,14 +118,11 @@ class AddWisdomScreen(Screen):
         new_wisdom = self.ids.new_wisdom.text
 	# read existing dict store
 	wisdom_dict = Wisdoms().readExistingDictStore()
-#	print wisdom_dict
+	# add new entry into dict
 	wisdom_dict[new_uuid] = {'implemented': '0', 'will_try': '0', 'wisdom': new_wisdom}
-
 	# save newly edited dict to json file
 	Wisdoms().saveChanges(wisdom_dict)
-
-
-#        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
+	# get back to main screen
 	sm.current = 'main'
 
 # Create the screen manager
@@ -148,21 +135,16 @@ sm.add_widget(AddWisdomScreen(name='add_wisdom'))
 
 class Wisdoms(App):
     def build(self):
-	# define Json store for future work
-#        data_dir = App().user_data_dir
-        #store = JsonStore(join(data_dir, 'wisdoms.json'))
-#        dict_store = join(data_dir, 'wisdoms.json')
-	# set store file like global so it is accessible from everywhere
-#	global dict_store
         return sm
 
-
+    # func for loading existing json dict
     def readExistingDictStore(self):
 	data_dir = App().user_data_dir
         with open(join(data_dir, 'wisdoms.json')) as f:
             return json.load(f)
         f.close()
 
+    # func for saving edited dict to defioned json file
     def saveChanges(self,dictName):
 	data_dir = App().user_data_dir
         f = open(join(data_dir, 'wisdoms.json'),'w')
