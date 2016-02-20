@@ -22,7 +22,7 @@ from os.path import join
 # to generate uuid for new wisdom
 import uuid
 
-
+import json
 
 Builder.load_file('wisdoms.kv')
 
@@ -126,7 +126,16 @@ class AddWisdomScreen(Screen):
         new_uuid = uuid.uuid4().hex
 	# use text from kv file based on id from kv file
         new_wisdom = self.ids.new_wisdom.text
-        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
+	# read existing dict store
+	wisdom_dict = Wisdoms().readExistingDictStore()
+#	print wisdom_dict
+	wisdom_dict[new_uuid] = {'implemented': '0', 'will_try': '0', 'wisdom': new_wisdom}
+
+	# save newly edited dict to json file
+	Wisdoms().saveChanges(wisdom_dict)
+
+
+#        store.put( new_uuid, wisdom=new_wisdom, implemented='0', will_try='0')
 	sm.current = 'main'
 
 # Create the screen manager
@@ -140,12 +149,26 @@ sm.add_widget(AddWisdomScreen(name='add_wisdom'))
 class Wisdoms(App):
     def build(self):
 	# define Json store for future work
-        data_dir = App().user_data_dir
-        store = JsonStore(join(data_dir, 'wisdoms.json'))
-
-	#global data_dir
-	global store
+#        data_dir = App().user_data_dir
+        #store = JsonStore(join(data_dir, 'wisdoms.json'))
+#        dict_store = join(data_dir, 'wisdoms.json')
+	# set store file like global so it is accessible from everywhere
+#	global dict_store
         return sm
+
+
+    def readExistingDictStore(self):
+	data_dir = App().user_data_dir
+        with open(join(data_dir, 'wisdoms.json')) as f:
+            return json.load(f)
+        f.close()
+
+    def saveChanges(self,dictName):
+	data_dir = App().user_data_dir
+        f = open(join(data_dir, 'wisdoms.json'),'w')
+        json.dump(dictName,f)
+        f.close()
+
 
 if __name__ == '__main__':
     Wisdoms().run()
