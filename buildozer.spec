@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = wisdoms2
+title = wisdoms5
 
 # (str) Package name
-package.name = wisdoms2
+package.name = wisdoms5
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test

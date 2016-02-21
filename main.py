@@ -123,7 +123,7 @@ class Will_tryScreen(Screen):
         # iterate through ordered dict and print only wisdoms
         for i,j in tempSortedDict.items():
             self.bad_text_id = self.bad_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
-    	OrderNum +=1
+    	    OrderNum +=1
 
 class AddWisdomScreen(Screen):
     
