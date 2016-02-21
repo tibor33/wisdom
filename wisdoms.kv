@@ -59,6 +59,7 @@
             #on_press: root.manager.current = 'implemented'
             #on_press: root.callback_update_TEST()
             on_press: root.manager.current = 'implemented'
+           # on_release: root.callback_update_GOOD()
 
         Button:
             text: 'Show Will try'
@@ -70,6 +71,9 @@
 
 
 <ImplementedScreen>:
+
+    on_pre_enter: root.callback_show_ordered_GOOD()
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
@@ -89,6 +93,8 @@
             size_hint: (1, 0.2)
 
 <Will_tryScreen>:
+    on_pre_enter: root.callback_show_ordered_BAD()    
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
