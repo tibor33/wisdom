@@ -1,4 +1,7 @@
 #:kivy 1.0
+#:import la kivy.adapters.listadapter
+#:import factory kivy.factory
+
 
 <MainScreen>:
     BoxLayout:
@@ -98,6 +101,29 @@
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
+
+#########################
+
+	
+        ListView:
+            size_hint: .8,.9
+            adapter:
+                la.ListAdapter(
+                #data=app.data,
+                data=["Item #{0}".format(i) for i in range(100)],
+                #data="1,2,3",
+		#cls=factory.Factory.MenuButton,
+#                cls=factory.Factory.ImplementedScreen,
+#                cls=factory.Factory.AddWisdomScreen,
+                cls=factory.Factory.MenuButtonTest,
+                selection_mode='single',
+                #allow_empty_selection=True,
+                allow_empty_selection=True)
+#                args_converter=root.args_converter)	
+##############################
+
+
+
         ScrollView
             Label:
                 padding_x: 30

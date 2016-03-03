@@ -21,6 +21,12 @@ import uuid
 # for dict sorting
 from collections import OrderedDict
 
+
+# testing button lists
+from kivy.uix.listview import ListItemButton
+from kivy.properties import ListProperty, NumericProperty
+
+
 Builder.load_file('wisdoms.kv')
 
 # Create both screens. Please note the root.manager.current: this is how
@@ -110,6 +116,7 @@ class ImplementedScreen(Screen):
             OrderNum +=1
 
 
+
 class Will_tryScreen(Screen):
     bad_text_id = StringProperty()
 
@@ -142,6 +149,19 @@ class AddWisdomScreen(Screen):
 	# get back to main screen
 	sm.current = 'main'
 
+
+###############
+# define button to display in list and tied it with kv file
+class MenuButtonTest(ListItemButton):
+    index = NumericProperty(0)
+
+#in order to listview work thsi must be somehow registered and tied together
+from kivy.factory import Factory
+Factory.register('MenuButtonTest', cls=MenuButtonTest)
+
+##############
+
+
 # Create the screen manager
 sm = ScreenManager()
 sm.add_widget(MainScreen(name='main'))
@@ -152,6 +172,9 @@ sm.add_widget(AddWisdomScreen(name='add_wisdom'))
 
 # main class for building app
 class Wisdoms(App):
+
+#    data = ListProperty(["Item #{0}".format(i) for i in range(50)])
+
     def build(self):
         return sm
 
