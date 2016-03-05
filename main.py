@@ -120,6 +120,13 @@ class ImplementedScreen(Screen):
 class Will_tryScreen(Screen):
     bad_text_id = StringProperty()
 
+
+#>>>
+#    task_input = ObjectProperty()
+#    task_list = ObjectProperty()
+    my_list = StringProperty()
+#<<<
+
     def callback_show_ordered_BAD(self):
         self.bad_text_id = 'List of least implemented wisdoms:' + '\n'
         # load json dict
@@ -133,19 +140,23 @@ class Will_tryScreen(Screen):
     	    OrderNum +=1
 
 
-############################
+#>>>
+	self.my_list = self.bad_text_id
+        #self.my_list = "aleho"
+    
+#	text = "abc"
+#        self.task_list.adapter.data.extend([self.task_input.text])
+#
 
-    def args_converter(self, row_index, title):
-    #def args_converter(self):
-#        print ("{0}={1}".format(row_index, title))
-	print "hehehe"
-        return {
-            'index': row_index,
-            'text': title
-        }
-	print "co to?"
+#    task_input = ObjectProperty()
+#    task_list = ObjectProperty()
+#
+#    def add_task(self):
+#        self.task_list.adapter.data.extend([self.task_input.text])
+#        self.task_list._trigger_reset_populate()
 
-############################
+
+#<<<
 
 
 
@@ -175,6 +186,8 @@ class MenuButton(ListItemButton):
     def on_menu_selection(self):
         print "olala"
 #        sm.current = 'main'
+
+
 
 #in order to listview work thsi must be somehow registered and tied together
 from kivy.factory import Factory

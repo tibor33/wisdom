@@ -1,4 +1,5 @@
 #:kivy 1.0
+# for using list capabilities
 #:import la kivy.adapters.listadapter
 #:import factory kivy.factory
 
@@ -26,7 +27,6 @@
                 height: self.texture_size[1]
                 text: root.wisdom_text_id
 #                text: 'yay moo cow foo bar moo baa ' * 100
-              
 
         Button:
             text: 'I live by'
@@ -38,7 +38,6 @@
             on_press: root.callback_update_BAD()
             size_hint: (1, 0.2)
 	    
-
         Button:
             text: 'Show menu'
  #           font_size: 25
@@ -48,7 +47,6 @@
         Button:
             text: 'Add wisdom'
             size_hint: (1, 0.2)
-            #on_press: root.callback_add_wisdom()
             on_press: root.manager.current = 'add_wisdom'
 
 
@@ -59,10 +57,7 @@
         spacing: 5 
         Button:
             text: 'Show implemented'
-            #on_press: root.manager.current = 'implemented'
-            #on_press: root.callback_update_TEST()
             on_press: root.manager.current = 'implemented'
-           # on_release: root.callback_update_GOOD()
 
         Button:
             text: 'Show Will try'
@@ -96,10 +91,9 @@
             size_hint: (1, 0.2)
 
 
-
-#################################
+#>>>
 #define button for menu (button shown in list view)
-# binded viq cls in listview 
+# binded via cls in listview 
 <MenuButton>:
     size_hint_y: None
     height: dp(24)
@@ -107,7 +101,8 @@
     #on_release: app.on_menu_selection(self)
     on_release: root.on_menu_selection()
 
-################################
+#<<<
+
 
 <Will_tryScreen>:
     on_pre_enter: root.callback_show_ordered_BAD()    
@@ -121,8 +116,14 @@
             adapter:
                 la.ListAdapter(
                 #data=app.data,
-                data=["Item #{0}".format(i) for i in range(30)],
-                #cls=factory.Factory.MenuButtonTest,
+                #data=["Item #{0}".format(i) for i in range(30)],
+                #data = ["1","2","3"],
+                data = root.my_list,
+		# getting data from parent widget
+		#data = root.data,
+		#data=root.my_list,
+		#data=[a,b,c],
+		#cls=factory.Factory.MenuButtonTest,
                 cls=factory.Factory.MenuButton,
                 selection_mode='single',
                 #allow_empty_selection=True,
