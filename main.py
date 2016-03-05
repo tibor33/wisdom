@@ -132,6 +132,23 @@ class Will_tryScreen(Screen):
             self.bad_text_id = self.bad_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
     	    OrderNum +=1
 
+
+############################
+
+    def args_converter(self, row_index, title):
+    #def args_converter(self):
+#        print ("{0}={1}".format(row_index, title))
+	print "hehehe"
+        return {
+            'index': row_index,
+            'text': title
+        }
+	print "co to?"
+
+############################
+
+
+
 class AddWisdomScreen(Screen):
     
     def callback_add_wisdom(self):
@@ -152,12 +169,16 @@ class AddWisdomScreen(Screen):
 
 ###############
 # define button to display in list and tied it with kv file
-class MenuButtonTest(ListItemButton):
+class MenuButton(ListItemButton):
     index = NumericProperty(0)
+
+    def on_menu_selection(self):
+        print "olala"
+#        sm.current = 'main'
 
 #in order to listview work thsi must be somehow registered and tied together
 from kivy.factory import Factory
-Factory.register('MenuButtonTest', cls=MenuButtonTest)
+Factory.register('MenuButton', cls=MenuButton)
 
 ##############
 
@@ -177,6 +198,8 @@ class Wisdoms(App):
 
     def build(self):
         return sm
+
+
 
 
 if __name__ == '__main__':

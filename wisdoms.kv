@@ -95,34 +95,41 @@
             on_press: root.manager.current = 'main'
             size_hint: (1, 0.2)
 
+
+
+#################################
+#define button for menu (button shown in list view)
+# binded viq cls in listview 
+<MenuButton>:
+    size_hint_y: None
+    height: dp(24)
+    #on_release: app.on_menu_selection(self.index)
+    #on_release: app.on_menu_selection(self)
+    on_release: root.on_menu_selection()
+
+################################
+
 <Will_tryScreen>:
     on_pre_enter: root.callback_show_ordered_BAD()    
-
     BoxLayout:
         orientation: 'vertical'
         spacing: 10
-
 #########################
-
-	
         ListView:
-            size_hint: .8,.9
+            id: task_list
+            #size_hint: .8,.9
             adapter:
                 la.ListAdapter(
                 #data=app.data,
-                data=["Item #{0}".format(i) for i in range(100)],
-                #data="1,2,3",
-		#cls=factory.Factory.MenuButton,
-#                cls=factory.Factory.ImplementedScreen,
-#                cls=factory.Factory.AddWisdomScreen,
-                cls=factory.Factory.MenuButtonTest,
+                data=["Item #{0}".format(i) for i in range(30)],
+                #cls=factory.Factory.MenuButtonTest,
+                cls=factory.Factory.MenuButton,
                 selection_mode='single',
                 #allow_empty_selection=True,
                 allow_empty_selection=True)
-#                args_converter=root.args_converter)	
+                #on_selection_change=root.callback_test_func)
+                #args_converter=root.args_converter)	
 ##############################
-
-
 
         ScrollView
             Label:
