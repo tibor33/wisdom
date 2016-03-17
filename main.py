@@ -123,8 +123,9 @@ class Will_tryScreen(Screen):
 
 #>>>
 #    task_input = ObjectProperty()
-#    task_list = ObjectProperty()
-    my_list = StringProperty()
+#   task_list = ObjectProperty()
+#    my_list = StringProperty()
+    my_list = ListProperty()
 #<<<
 
     def callback_show_ordered_BAD(self):
@@ -134,15 +135,37 @@ class Will_tryScreen(Screen):
         # sort dict based on least implemented wisdoms
         tempSortedDict = OrderedDict(sorted(dictName.items(), reverse=True ,key=lambda (x,y): int(y['will_try']))    )
         OrderNum = 1 # number of wisdom in display
-        # iterate through ordered dict and print only wisdoms
+        # define empty list
+	sorted_wisdom_list=[]
+
+	# iterate through ordered dict and print only wisdoms
         for i,j in tempSortedDict.items():
-            self.bad_text_id = self.bad_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
-    	    OrderNum +=1
+            #self.bad_text_id = self.bad_text_id +'\n' + str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
+            self.bad_text_id = str(OrderNum)  + '.  ' + j['wisdom'] + '       ' + str(j['will_try'])  + '\n'
+    	    
+	    #print OrderNum-1 
+	    #self.my_list[0] = "a" 
+	    OrderNum +=1
+
+	    sorted_wisdom_list.append(self.bad_text_id)
+        
+        self.my_list=sorted_wisdom_list
+
+
+
 
 
 #>>>
-	self.my_list = self.bad_text_id
-        #self.my_list = "aleho"
+        textik = self.list_view.adapter.get_data_item(0)
+        print textik
+
+#        my_zoz=[]	
+#        my_zoz.append("first")
+#        my_zoz.append("second")
+#        self.my_list=my_zoz
+
+
+#        self.task_list.adapter.data = ["1","2","3","4"]
     
 #	text = "abc"
 #        self.task_list.adapter.data.extend([self.task_input.text])
@@ -154,8 +177,6 @@ class Will_tryScreen(Screen):
 #    def add_task(self):
 #        self.task_list.adapter.data.extend([self.task_input.text])
 #        self.task_list._trigger_reset_populate()
-
-
 #<<<
 
 
@@ -184,8 +205,26 @@ class MenuButton(ListItemButton):
     index = NumericProperty(0)
 
     def on_menu_selection(self):
-        print "olala"
-#        sm.current = 'main'
+        
+	#textik = list_adapter.get_data_item(0)
+	#textik = self.ids.task_list.get_data_item(0)
+	#textik = Will_tryScreen.la.get_data_item(0)
+	#self.list_view_id.adapter.
+	#textik = self.task_list.adapter.get_data_item(0)
+	#self.ids.new_wisdom.text
+	#print textik
+	print "olala"
+        sm.current = 'edit_wisdom'
+
+
+
+# define class for screen for editing wisdom
+class EditWisdomScreen(Screen):
+
+    def callback_edit_wisdom(self):
+	# code for altering(deleting and saving edited wisdom)
+	pass	
+	
 
 
 
@@ -203,6 +242,9 @@ sm.add_widget(MenuScreen(name='menu'))
 sm.add_widget(ImplementedScreen(name='implemented'))
 sm.add_widget(Will_tryScreen(name='will_try'))
 sm.add_widget(AddWisdomScreen(name='add_wisdom'))
+sm.add_widget(EditWisdomScreen(name='edit_wisdom'))
+
+
 
 # main class for building app
 class Wisdoms(App):

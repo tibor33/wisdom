@@ -95,16 +95,28 @@
 #define button for menu (button shown in list view)
 # binded via cls in listview 
 <MenuButton>:
+   # size_hint: (1, 0.2)
+    #text_size:self.width-20,self.height-20
+    #halign:'left'
+
     size_hint_y: None
-    height: dp(24)
+    text_size: self.width, None
+    #height: self.texture_size[1]
+
+
+    #valign:'middle'
+   # size_hint_y: None
+   # height: dp(40)
     #on_release: app.on_menu_selection(self.index)
-    #on_release: app.on_menu_selection(self)
     on_release: root.on_menu_selection()
 
 #<<<
 
 
 <Will_tryScreen>:
+    # in order to bind to this from code I need to specify id like variabel also here so it is accessible in Will_tryScreen class in code
+    list_view: task_list
+
     on_pre_enter: root.callback_show_ordered_BAD()    
     BoxLayout:
         orientation: 'vertical'
@@ -119,6 +131,7 @@
                 #data=["Item #{0}".format(i) for i in range(30)],
                 #data = ["1","2","3"],
                 data = root.my_list,
+                #data = "",
 		# getting data from parent widget
 		#data = root.data,
 		#data=root.my_list,
@@ -132,16 +145,14 @@
                 #args_converter=root.args_converter)	
 ##############################
 
-        ScrollView
-            Label:
-                padding_x: 30
-                padding_y: 30
-                size_hint_y: None
-                text_size: self.width, None
-                height: self.texture_size[1]
-#                text: 'yay moo cow foo bar moo baa ' * 100
-                text: root.bad_text_id
-                #text: root.tempSortedDict
+#        ScrollView
+#            Label:
+#                padding_x: 30
+#                padding_y: 30
+#                size_hint_y: None
+#                text_size: self.width, None
+#                height: self.texture_size[1]
+#                text: root.bad_text_id
 
         Button:
             text: 'Back to Main'
@@ -168,6 +179,33 @@
             text: 'Save'
             on_press: root.callback_add_wisdom()
             size_hint: (1, 0.2)       
+
+        Button:
+            text: 'Cancel'
+            on_press: root.manager.current = 'main'
+            size_hint: (1, 0.2)
+
+
+# screen for editing already existing wisdom
+<EditWisdomScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        ScrollView
+            TextInput:
+                #id: new_wisdom
+                #text: root.username
+               # text: 'add here'
+                #self.select_all()
+                #root.new_wisdom = TextInput.text 
+                #on_enter_key: root.callback_add_wisdom()      
+                #on_press: root.callback_add_wisdom()      
+
+
+        Button:
+            text: 'Save'
+            on_press: root.callback_add_wisdom()
+            size_hint: (1, 0.2)
 
         Button:
             text: 'Cancel'
